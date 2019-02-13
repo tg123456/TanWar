@@ -12,6 +12,8 @@ public class TankClient extends Frame {
 
     // 让坦克动起来,把fillOval里面x，y值放置成变量的
     int x = 50, y = 50;
+    Tank myTank = new Tank(x, y, this);
+    Missile m = null;
 
     Image offScreenImage = null;
 
@@ -32,10 +34,8 @@ public class TankClient extends Frame {
 
     // 这个方法默认会被调用
     public void paint(Graphics g){
-        Color c = g.getColor();
-        g.setColor(Color.red);
-        g.fillOval(x,y,30,30);
-        g.setColor(c);
+        myTank.draw(g);
+        if(m != null) m.draw(g);
     }
 
     public void launchFrame(){
@@ -81,18 +81,11 @@ public class TankClient extends Frame {
     private class KeyMonitor extends KeyAdapter{
 
         public void keyPressed(KeyEvent e){
-            int key = e.getKeyCode();
-            switch (key){
-                case KeyEvent.VK_LEFT: x -= 5; break;
-                case KeyEvent.VK_RIGHT: x += 5; break;
-                case KeyEvent.VK_UP: y -= 5; break;
-                case KeyEvent.VK_DOWN: y += 5; break;
-            }
-//            if(key == KeyEvent.VK_RIGHT){
-//                y += 5;
-//            }else if(key == KeyEvent.VK_LEFT){
-//                y -= 5;
-//            }
+            myTank.keyPressed(e);
+        }
+
+        public void keyReleased(KeyEvent e){
+            myTank.keyRelease(e);
         }
 
     }
